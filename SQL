@@ -1,0 +1,31 @@
+SELECT date from EUR_USD GROUP BY date;  || SELECT DISTINCT(date) from EUR_USD; - посмотреть имеющиеся данные второе кажется более подходящим.
+SELECT MIN(time),MAX(time) from EUR_USD WHERE date='2016-03-29'; - посмотреть временной промежуток имеющихся данных
+SELECT MIN(bid),AVG(bid),MAX(bid),MIN(ask),AVG(ask),MAX(ask) from EUR_USD WHERE date='2016-03-29'; - статистика по данным (bid, ask)
+SELECT COUNT(id) from EUR_USD where date='2016-03-25'; - вывод количество записей за выбранный день
+
+
+#DROP ALL:
+
+SET FOREIGN_KEY_CHECKS = 0; 
+SET @tables = NULL;
+SELECT GROUP_CONCAT(table_schema, '.', table_name) INTO @tables
+  FROM information_schema.tables 
+  WHERE table_schema = 'trade_data'; -- specify DB name here.
+
+SET @tables = CONCAT('DROP TABLE ', @tables);
+PREPARE stmt FROM @tables;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+SET FOREIGN_KEY_CHECKS = 1; 
+
+#SIZE OF ALL TABLES
+select table_name,data_length,index_length from tables where table_schema='trade_data';
+
+
+#SIZE OF DATABASE
+SELECT table_schema "database_name", sum( data_length + index_length )/1024/1024 "Data Base Size in MB" FROM information_schema.TABLES GROUP BY table_schema;
+
+SELECT table_schema "trade_data", 
+Round(Sum(data_length + index_length) / 1024 / 1024, 1) "DB Size in MB" 
+FROM   information_schema.tables 
+GROUP  BY table_schema; 

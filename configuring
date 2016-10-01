@@ -1,0 +1,6 @@
+mysql -u root -p
+create user 'tradebot'@'localhost' identified by 'tradeb0t';
+grant all privileges on trade_data.* to 'tradebot'@'localhost';
+python db_create.py
+
+mysqldump -u tradebot -ptradeb0t trade_data > /home/ruslan/Desktop/dump.sql - make backup

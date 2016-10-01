@@ -9,7 +9,6 @@ import requests
 import json
 import MySQLdb
 import string
-
 from optparse import OptionParser
 
 db = MySQLdb.connect(host="localhost", user="tradebot", passwd="tradeb0t", db="trade_data", charset='utf8')
@@ -62,7 +61,7 @@ def demo(displayHeartbeat):
                 time = msg["tick"]["time"]
                 bid = msg["tick"]["bid"]
                 ask = msg["tick"]["ask"]
-                #print "instr : %(instrument)s time : %(time)s \n bid : %(bid)f ask : %(ask)"%{"instrument":instrument,"time":time,"bid":bid,"ask":ask}
+
                 date = time[0:10]
                 clock = time[11:19]
                 milsec = float(time[19:-1])
